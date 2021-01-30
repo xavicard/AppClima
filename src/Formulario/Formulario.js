@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {actionClima} from '../Action/Action'
+import {actionNoticia} from '../Action/NoticiaAction'
 /* API : http://api.openweathermap.org/data/2.5/weather?q=CIUDAD,PAIS&units=metric&appid=678607c8dc07aee05abe6e00335b09da*/ 
-const Form = ({busquedaClima,guardaRespuesta,respuesta}) =>{
+const Form = () =>{
     const [busca,ingresaBusca] = useState({
         ciudad:'',
         pais:''
@@ -16,12 +19,14 @@ const Form = ({busquedaClima,guardaRespuesta,respuesta}) =>{
         e.preventDefault();
         if(busca.ciudad.trim()==='' || busca.pais.trim==='')
             cambiaError(true)
-
-        busquedaClima(busca)        
+        //let r=busquedaClima(busca) 
+        dispatch(actionClima(busca))
+        dispatch(actionNoticia(busca))
     }
+    const dispatch = useDispatch();
     return(
         <form onSubmit={buscaClima}>
-            {err ? <div className="card-panel red darken-4 error">Se debe llenar todos los campos</div> : null }
+              {err ? <div className="card-panel red darken-4 error">Se debe llenar todos los campos</div> : null }
             <div className="input-field col s12">
               <input name="ciudad" id="ciudad" type="text" className="validate" value={busca.ciudad} onChange={actualiza} />
               <label htmlFor="ciudad">Ciudad</label>

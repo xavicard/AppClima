@@ -2,6 +2,10 @@ import React, {Fragment,useState,useEffect} from 'react';
 import Header from './Cabecera/Cabecera'
 import Form from './Formulario/Formulario'
 import Clima from './Clima/Clima'
+import Noticias from './Noticias/Noticias'
+
+import store from './store'
+import {Provider} from 'react-redux'
 
 function App() {
   const [busca,ingresaBusca] = useState({
@@ -16,32 +20,39 @@ function App() {
     .then(data=>{
       guardaRespuesta(data)
       //console.log(respuesta)
+      return data
     })
   }
-  useEffect(()=>{
+  const okclima = () =>{
+    console.log('ok_clima')
+  }
+/*  useEffect(()=>{
     guardaRes(respuesta)
-  })
+  })*/
+//  const dispatch = useDispatch();
   return (
     <Fragment>
+      <Provider store={store}>
       <Header />
       <div className="contenedor-form">
         <div className="container">
           <div className="row">
             <div className="col m6 s6">
               <Form
-                busquedaClima={clima}
-                guardaRespuesta={guardaRespuesta}
-                respuesta={respuesta}
               />
             </div>
             <div className="col m6 s6">
               <Clima 
-                res={res}
+              />              
+            </div>
+            <div className="col m6 s6">
+              <Noticias 
               />              
             </div>
           </div>
         </div>
       </div>
+      </Provider>
     </Fragment>
   );
 }
